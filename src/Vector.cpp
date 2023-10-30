@@ -55,7 +55,7 @@ void Vector::fma(const Vector &v, float scalar)
 
 	for (size_t i = 0; i < data.size(); ++i)
 	{
-		data[i] += scalar * v.data[i];
+		data[i] = std::fma(scalar, v.data[i], data[i]);
 	}
 }
 
@@ -80,6 +80,106 @@ Vector Vector::linear_combination(const std::vector<Vector> &vectors, const std:
 	{
 		result.fma(vectors[i], coefficients[i]);
 	}
+
+	return result;
+}
+
+Vector Vector::linear_interpolation(const Vector &u, const Vector &v, float t)
+{
+	if (u.data.size() != v.data.size())
+	{
+		throw std::invalid_argument("Vectors must be of the same size.");
+	}
+
+	size_t size = u.data.size();
+	Vector result(size);
+	for (size_t i = 0; i < size; ++i)
+	{
+		result.data[i] = std::fma(t, v.data[i] - u.data[i], u.data[i]);
+	}
+
+	return result;
+}
+
+float Vector::dot(const Vector &v) const
+{
+	if (data.size() != v.data.size())
+	{
+		throw std::invalid_argument("Vectors must be of the same size.");
+	}
+
+	float result = 0.0;
+	for (size_t i = 0; i < data.size(); ++i)
+	{
+		result += data[i] * v.data[i];
+	}
+
+	return result;
+}
+
+float Vector::norm_1() const
+{
+	float result = 0.0;
+	for (const float &value : data)
+	{
+		result += std::max(value, -value);
+	}
+
+	return result;
+}
+
+float Vector::norm_2() const
+{
+	float result = 0.0;
+	for (const float &value : data)
+	{
+		result += value * value;
+	}
+
+	return std::pow(result, 0.5);
+}
+
+float Vector::norm_inf() const
+{
+	float result = 0.0;
+	float abs_value = 0.0;
+	for (const float &value : data)
+	{
+		abs_value = std::max(value, -value);
+		if (abs_value > result)
+		{
+			result = abs_value;
+		}
+	}
+
+	return result;
+}
+
+float Vector::angle_cos(const Vector &u, const Vector &v)
+{
+	if (u.data.size() != v.data.size())
+	{
+		throw std::invalid_argument("Vectors must be of the same size.");
+	}
+
+	float norm_u = u.norm_2();
+	float norm_v = v.norm_2();
+	float dot_product = u.dot(v);
+
+	return dot_product / (norm_u * norm_v);
+}
+
+Vector Vector::cross_product(const Vector &u, const Vector &v)
+{
+	if (u.data.size() != 3 || v.data.size() != 3)
+	{
+		throw std::invalid_argument("Vectors must be of size 3.");
+	}
+
+	Vector result(3);
+	result.data[0] = u.data[1] * v.data[2] - u.data[2] * v.data[1];
+	result.data[1] = u.data[2] * v.data[0] - u.data[0] * v.data[2];
+	result.data[2] = u.data[0] * v.data[1] - u.data[1] * v.data[0];
 
 	return result;
 }

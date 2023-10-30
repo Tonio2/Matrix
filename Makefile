@@ -3,7 +3,7 @@ CXXFLAGS = -std=c++17 -Iinclude
 SRC_DIR = src
 OBJ_DIR = obj
 INC_DIR = include
-TARGET = ex01
+TARGET = ex11
 
 SOURCES_FN = Matrix.cpp Vector.cpp $(TARGET).cpp
 SOURCES = $(addprefix $(SRC_DIR)/, $(SOURCES_FN))
