@@ -3,11 +3,11 @@ CXXFLAGS = -std=c++17 -Iinclude
 SRC_DIR = src
 OBJ_DIR = obj
 INC_DIR = include
+TARGET = ex01
 
-SOURCES = $(wildcard $(SRC_DIR)/*.cpp)
+SOURCES_FN = Matrix.cpp Vector.cpp $(TARGET).cpp
+SOURCES = $(addprefix $(SRC_DIR)/, $(SOURCES_FN))
 OBJECTS = $(SOURCES:$(SRC_DIR)/%.cpp=$(OBJ_DIR)/%.o)
-
-TARGET = ex00
 
 all: $(TARGET)
 

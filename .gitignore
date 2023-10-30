@@ -1,3 +1,4 @@
 obj/
 ex*
 !src/ex*
+.vscode
