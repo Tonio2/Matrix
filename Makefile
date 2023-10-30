@@ -14,8 +14,11 @@ all: $(TARGET)
 $(TARGET): $(OBJECTS)
 	$(CXX) -o $@ $^
 
-$(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp | $(OBJ_DIR)
 	$(CXX) $(CXXFLAGS) -c $< -o $@
+
+$(OBJ_DIR):
+	mkdir -p $@
 
 .PHONY: clean
 
