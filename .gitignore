@@ -2,3 +2,5 @@ obj/
 ex*
 !src/ex*
 .vscode
+
+Makefile
