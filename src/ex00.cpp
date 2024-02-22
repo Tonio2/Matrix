@@ -21,7 +21,7 @@ int main()
 		{
 			v1.add(v3);
 		}
-		catch (const std::exception &e)
+		catch (const std::invalid_argument &e)
 		{
 			exceptionCaught = true;
 		}
@@ -36,7 +36,7 @@ int main()
 		{
 			v1.sub(v3);
 		}
-		catch (const std::exception &e)
+		catch (const std::invalid_argument &e)
 		{
 			exceptionCaught = true;
 		}
@@ -69,7 +69,7 @@ int main()
 		{
 			m1.add(m3);
 		}
-		catch (const std::exception &e)
+		catch (const std::invalid_argument &e)
 		{
 			exceptionCaught = true;
 		}
@@ -86,7 +86,7 @@ int main()
 		{
 			m1.sub(m3);
 		}
-		catch (const std::exception &e)
+		catch (const std::invalid_argument &e)
 		{
 			exceptionCaught = true;
 		}

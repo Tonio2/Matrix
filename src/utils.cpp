@@ -12,5 +12,8 @@ void assert(bool condition, const std::string &name)
 	{
 		std::cout << "NOK" << std::endl;
 	}
-	std::cout << "OK" << std::endl;
+	else
+	{
+		std::cout << "OK" << std::endl;
+	}
 }
