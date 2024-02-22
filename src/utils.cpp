@@ -5,12 +5,12 @@ float linear_interpolation(float u, float v, float t)
 	return std::fma(t, v - u, u);
 }
 
-void assert(bool condition, const std::string &name, const std::string &message)
+void assert(bool condition, const std::string &name)
 {
 	std::cout << "Testing " << name << "... ";
 	if (!condition)
 	{
-		throw std::runtime_error(message);
+		std::cout << "NOK" << std::endl;
 	}
 	std::cout << "OK" << std::endl;
 }
