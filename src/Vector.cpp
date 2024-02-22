@@ -3,6 +3,32 @@
 Vector::Vector(const size_t size) : data(size) {}
 Vector::Vector(const std::initializer_list<float> &elements) : data(elements) {}
 
+bool Vector::operator==(const Vector &other) const
+{
+	// Check if the sizes of the two vectors are the same
+	if (data.size() != other.data.size())
+	{
+		return false;
+	}
+
+	// Define a small epsilon value for floating-point comparison
+	const float EPSILON = 1e-6;
+	float diff = 0.0;
+
+	// Compare each element in the vectors
+	for (size_t i = 0; i < data.size(); ++i)
+	{
+		diff = data[i] - other.data[i];
+		if (diff > EPSILON || diff < -EPSILON)
+		{
+			return false;
+		}
+	}
+
+	// All elements are equal
+	return true;
+}
+
 void Vector::print() const
 {
 	for (const float &elem : data)

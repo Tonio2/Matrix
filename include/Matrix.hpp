@@ -33,6 +33,8 @@ public:
 	float determinant() const;
 
 	Matrix inverse() const;
+
+	bool operator==(const Matrix &other) const;
 };
 
 #endif // MATRIX_HPP

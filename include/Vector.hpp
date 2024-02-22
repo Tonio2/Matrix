@@ -29,6 +29,8 @@ public:
 
 	static float angle_cos(const Vector &u, const Vector &v);
 	static Vector cross_product(const Vector &u, const Vector &v);
+
+	bool operator==(const Vector &other) const;
 };
 
 #endif // VECTOR_HPP
