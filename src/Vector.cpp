@@ -17,7 +17,7 @@ bool Vector<T>::operator==(const Vector &other) const
 
     if constexpr (std::is_floating_point_v<T>)
     {
-        const T EPSILON = std::numeric_limits<T>::epsilon();
+        const T EPSILON = 10 * std::numeric_limits<T>::epsilon();
         T diff = 0.0;
 
         for (size_t i = 0; i < data.size(); ++i)
