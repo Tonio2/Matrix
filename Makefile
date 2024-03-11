@@ -3,15 +3,16 @@ CXXFLAGS = -std=c++17 -Iinclude
 SRC_DIR = src
 OBJ_DIR = obj
 INC_DIR = include
-TARGET = ex11
 
-SOURCES_FN = Matrix.cpp Vector.cpp $(TARGET).cpp
+SOURCES_FN = Matrix.cpp Vector.cpp
 SOURCES = $(addprefix $(SRC_DIR)/, $(SOURCES_FN))
-OBJECTS = $(SOURCES:$(SRC_DIR)/%.cpp=$(OBJ_DIR)/%.o)
+DEPENDENCIES = $(SOURCES:$(SRC_DIR)/%.cpp=$(OBJ_DIR)/%.o)
 
-all: $(TARGET)
+EXECS = $(basename $(notdir $(wildcard $(SRC_DIR)/ex*.cpp)))
 
-$(TARGET): $(OBJECTS)
+all: $(EXECS)
+
+$(EXECS): %: $(OBJ_DIR)/%.o $(DEPENDENCIES)
 	$(CXX) -o $@ $^
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp | $(OBJ_DIR)
@@ -23,9 +24,9 @@ $(OBJ_DIR):
 .PHONY: clean
 
 clean:
-	rm -f $(OBJ_DIR)/*.o $(TARGET)
+	rm -f $(OBJ_DIR)/*.o $(EXECS)
 
 fclean: clean
-	rm -f $(TARGET)
+	rm -f $(EXECS)
 
 re: fclean all
