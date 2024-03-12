@@ -35,6 +35,8 @@ public:
 
 	Matrix inverse() const;
 
+    int rank() const;
+
 	bool operator==(const Matrix &other) const;
 };
 

@@ -242,7 +242,7 @@ Matrix<T> Matrix<T>::row_echelon() const
         size_t maxi = i;
         for (size_t k = i + 1; k < result.data.size(); ++k)
         {
-            if (std::abs(result.data[k][j]) > std::abs(result.data[maxi][j]))
+            if (absVal<T>(result.data[k][j]) > absVal<T>(result.data[maxi][j]))
             {
                 maxi = k;
             }
@@ -361,7 +361,7 @@ Matrix<T> Matrix<T>::inverse() const
         size_t maxRow = i;
         for (size_t k = i + 1; k < n; ++k)
         {
-            if (abs(result.data[k][i]) > abs(result.data[maxRow][i]))
+            if (absVal<T>(result.data[k][i]) > absVal<T>(result.data[maxRow][i]))
             {
                 maxRow = k;
             }
@@ -406,6 +406,21 @@ Matrix<T> Matrix<T>::inverse() const
     }
 
     return inverseMatrix;
+}
+
+template <typename T>
+int Matrix<T>::rank() const {
+    Matrix<T> ref = this->row_echelon();
+    int rank = 0;
+    for (const auto& row : ref.data) {
+        for (const auto& element : row) {
+            if (!areFloatsEqual(element, 0)) {
+                ++rank;
+                break;
+            }
+        }
+    }
+    return rank;
 }
 
 template class Matrix<int>;
