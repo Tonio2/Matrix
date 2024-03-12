@@ -4,7 +4,7 @@ SRC_DIR = src
 OBJ_DIR = obj
 INC_DIR = include
 
-SOURCES_FN = Matrix.cpp Vector.cpp
+SOURCES_FN = Matrix.cpp Vector.cpp utils.cpp
 SOURCES = $(addprefix $(SRC_DIR)/, $(SOURCES_FN))
 DEPENDENCIES = $(SOURCES:$(SRC_DIR)/%.cpp=$(OBJ_DIR)/%.o)
 
