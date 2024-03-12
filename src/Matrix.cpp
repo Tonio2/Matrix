@@ -250,7 +250,8 @@ Matrix<T> Matrix<T>::row_echelon() const
         if (not areFloatsEqual(result.data[maxi][j], 0))
         {
             // Swap row i and row maxi, but do not change the value of i
-            if (i != maxi) {
+            if (i != maxi)
+            {
                 for (size_t k = 0; k < result.data[0].size(); ++k)
                 {
                     std::swap(result.data[i][k], result.data[maxi][k]);
@@ -330,6 +331,81 @@ T Matrix<T>::determinant() const
 
     // If we reach here, it means n > 4 which is not expected as per the spec.
     return 0.0;
+}
+
+template <typename T>
+Matrix<T> Matrix<T>::inverse() const
+{
+    if (data.size() != data[0].size())
+    {
+        throw std::invalid_argument("Matrix must be square to find its inverse.");
+    }
+
+    size_t n = data.size();
+    Matrix<T> result(n, n * 2);
+
+    // Construct augmented matrix: [A | I]
+    for (size_t i = 0; i < n; ++i)
+    {
+        for (size_t j = 0; j < n; ++j)
+        {
+            result.data[i][j] = data[i][j];
+        }
+        result.data[i][i + n] = 1;
+    }
+
+    // Apply Gauss-Jordan elimination
+    for (size_t i = 0; i < n; ++i)
+    {
+        // Find the pivot
+        size_t maxRow = i;
+        for (size_t k = i + 1; k < n; ++k)
+        {
+            if (abs(result.data[k][i]) > abs(result.data[maxRow][i]))
+            {
+                maxRow = k;
+            }
+        }
+        if (areFloatsEqual(result.data[maxRow][i], 0))
+        {
+            throw std::runtime_error("Matrix is singular and cannot be inverted.");
+        }
+
+        // Swap rows
+        std::swap(result.data[i], result.data[maxRow]);
+
+        // Scale to make the pivot 1
+        T pivot = result.data[i][i];
+        for (size_t j = 0; j < 2 * n; ++j)
+        {
+            result.data[i][j] /= pivot;
+        }
+
+        // Zero out other elements in the column
+        for (size_t u = 0; u < n; ++u)
+        {
+            if (u != i)
+            {
+                T factor = result.data[u][i];
+                for (size_t j = 0; j < 2 * n; ++j)
+                {
+                    result.data[u][j] -= factor * result.data[i][j];
+                }
+            }
+        }
+    }
+
+    // Extract the inverse matrix from the augmented matrix
+    Matrix<T> inverseMatrix(n, n);
+    for (size_t i = 0; i < n; ++i)
+    {
+        for (size_t j = 0; j < n; ++j)
+        {
+            inverseMatrix.data[i][j] = result.data[i][j + n];
+        }
+    }
+
+    return inverseMatrix;
 }
 
 template class Matrix<int>;
