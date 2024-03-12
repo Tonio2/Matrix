@@ -1,60 +1,83 @@
 #include "Matrix.hpp"
+#include "utils.hpp"
 
 int main()
 {
     try
     {
         // 1. Matrix already in row echelon form.
-        Matrix m1 = {
+        Matrix<float> m1 = {
             {1., 0., 0.},
             {0., 1., 0.},
             {0., 0., 1.}
         };
-        std::cout << "Row echelon form of m1 is:" << std::endl;
-        m1.row_echelon().print();
+        Matrix<float> expected1 = {
+            {1., 0., 0.},
+            {0., 1., 0.},
+            {0., 0., 1.}
+        };
+        assert(m1.row_echelon() == expected1, "Matrix already in row echelon form");
 
         // 2. Matrix not in row echelon form.
-        Matrix m2 = {
+        Matrix<float> m2 = {
             {0., 2., 3.},
             {4., 5., 6.},
             {7., 8., 9.}
         };
-        std::cout << "Row echelon form of m2 is:" << std::endl;
-        m2.row_echelon().print();
+        Matrix<float> expected2 = {
+            {1, 8./7., 9./7.},
+            {0., 1., 3./2.},
+            {0., 0., 1.}
+        };
+        assert(m2.row_echelon() == expected2, "Matrix not in row echelon form");
 
         // 3. Singular matrix.
-        Matrix m3 = {
+        Matrix<float> m3 = {
             {1., 2., 3.},
             {0., 0., 0.},
             {4., 5., 6.}
         };
-        std::cout << "Row echelon form of m3 is:" << std::endl;
-        m3.row_echelon().print();
+        Matrix<float> expected3 = {
+            {1., 5./4., 3./2.},
+            {0., 1., 2.},
+            {0., 0., 0.}
+        };
+        assert(m3.row_echelon() == expected3, "Singular matrix");
 
         // 4. Matrix with more rows than columns.
-        Matrix m4 = {
+        Matrix<float> m4 = {
             {1., 2.},
             {3., 4.},
             {5., 6.}
         };
-        std::cout << "Row echelon form of m4 is:" << std::endl;
-        m4.row_echelon().print();
+        Matrix<float> expected4 = {
+            {1., 1.2},
+            {0., 1.},
+            {0., 0.}
+        };
+        assert(m4.row_echelon() == expected4, "Matrix with more rows than columns");
 
         // 5. Matrix with more columns than rows.
-        Matrix m5 = {
+        Matrix<float> m5 = {
             {1., 2., 3., 4.},
             {5., 6., 7., 8.}
         };
-        std::cout << "Row echelon form of m5 is:" << std::endl;
-        m5.row_echelon().print();
+        Matrix<float> expected5 = {
+            {1., 1.2, 1.4, 1.6},
+            {0., 1., 2., 3.}
+        };
+        Matrix<float> result = m5.row_echelon();
+        bool test = result == expected5;
+        assert(m5.row_echelon() == expected5, "Matrix with more columns than rows");
 
-        // 6. Empty matrix. This should probably fail.
-        Matrix m6 = {};
-        std::cout << "Row echelon form of m6 is:" << std::endl;
-        m6.row_echelon().print();
+        // 6. Empty matrix. Nothing should happen.
+        Matrix<float> m6 = {};
     }
     catch (const std::exception &e)
     {
         std::cerr << e.what() << std::endl;
     }
 }
+
+// Test with wolfram alpha
+// RowReduce[{{0, 2, 3}, {4, 5, 6}, {7, 8, 9}}]

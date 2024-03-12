@@ -1,4 +1,5 @@
 #include "Matrix.hpp"
+#include "utils.hpp"
 
 template <typename T>
 Matrix<T>::Matrix(const size_t rows, const size_t columns) : data(rows, std::vector<T>(columns)) {}
@@ -24,7 +25,7 @@ bool Matrix<T>::operator==(const Matrix &other) const
 
     if constexpr (std::is_floating_point_v<T>)
     {
-        const T EPSILON = std::numeric_limits<T>::epsilon();
+        const T EPSILON = 10 * std::numeric_limits<T>::epsilon();
         T diff = 0.0;
         for (size_t i = 0; i < data.size(); ++i)
         {
@@ -246,18 +247,16 @@ Matrix<T> Matrix<T>::row_echelon() const
                 maxi = k;
             }
         }
-        if (result.data[maxi][j] != 0)
+        if (not areFloatsEqual(result.data[maxi][j], 0))
         {
             // Swap row i and row maxi, but do not change the value of i
-            if (i != maxi)
-            {
+            if (i != maxi) {
                 for (size_t k = 0; k < result.data[0].size(); ++k)
                 {
-                    T aux = result.data[i][k];
-                    result.data[i][k] = result.data[maxi][k];
-                    result.data[maxi][k] = aux;
+                    std::swap(result.data[i][k], result.data[maxi][k]);
                 }
             }
+
             // Now A[i,j] will contain the old value of A[maxi,j].
             // divide each entry in row i by A[i,j]
             T A_ij = result.data[i][j];

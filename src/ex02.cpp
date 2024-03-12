@@ -1,7 +1,7 @@
 #include <iostream>
 #include "Vector.hpp"
 #include "Matrix.hpp"
-#include "utils.cpp"
+#include "utils.hpp"
 
 using namespace std;
 
