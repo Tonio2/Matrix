@@ -308,10 +308,10 @@ T Matrix<T>::determinant() const
     else if (n == 4)
     {
         T det = 0;
+        Matrix submat(3, 3);
         for (size_t i = 0; i < 4; i++)
         {
-            // Create a 3x3 matrix excluding the current row and column
-            Matrix submat(3, 3);
+            // Create a 3x3 matrix excluding the first row and the i-th column
             for (size_t j = 1; j < 4; j++)
             {
                 size_t colIdx = 0;

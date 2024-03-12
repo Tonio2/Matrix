@@ -1,55 +1,56 @@
 #include "Matrix.hpp"
+#include "utils.hpp"
 
 int main()
 {
     try
     {
         // 1. Matrix already in row echelon form.
-        Matrix m1 = {
+        Matrix<float> m1 = {
             {1., 0., 0.},
             {0., 1., 0.},
             {0., 0., 1.}
         };
-        std::cout << "det(m1) = " << m1.determinant() << std::endl;
+        assert(areFloatsEqual(m1.determinant(), 1.0), "Matrix already in row echelon form");
 
         // 2. Non-square matrix
-        Matrix m2 = {
+        Matrix<float> m2 = {
             {1., 0., 0.},
             {0., 1., 0.}
         };
-        std::cout << "det(m2) = " << m2.determinant() << std::endl;
+        // Result is undefined as per the spec
 
         // 3. Singular matrix
-        Matrix m3 = {
+        Matrix<float> m3 = {
             {1., 2., 3.},
             {4., 5., 6.},
             {7., 8., 9.}
         };
-        std::cout << "det(m3) = " << m3.determinant() << std::endl;
+        assert(areFloatsEqual(m3.determinant(), 0.0), "Singular matrix");
 
         // 4. 2x2 matrix
-        Matrix m4 = {
+        Matrix<float> m4 = {
             {3., 8.},
             {4., 6.}
         };
-        std::cout << "det(m4) = " << m4.determinant() << std::endl;
+        assert(areFloatsEqual(m4.determinant(), -14.0), "2x2 matrix");
 
         // 5. 4x4 matrix
-        Matrix m5 = {
+        Matrix<float> m5 = {
             {2., -3., 1., 5.},
             {3., 0., 6., 4.},
             {-1., 3., 3., 2.},
             {1., 2., 1., 0.}
         };
-        std::cout << "det(m5) = " << m5.determinant() << std::endl;
+        assert(areFloatsEqual(m5.determinant(), 157.0), "4x4 matrix");
 
         // 6. Matrix with same rows
-        Matrix m6 = {
+        Matrix<float> m6 = {
             {1., 2., 3.},
             {1., 2., 3.},
             {1., 2., 3.}
         };
-        std::cout << "det(m6) = " << m6.determinant() << std::endl;
+        assert(areFloatsEqual(m6.determinant(), 0.0), "Matrix with same rows");
     }
     catch (const std::exception &e)
     {
@@ -58,3 +59,9 @@ int main()
 
     return 0;
 }
+
+// Test on wolfram alpha
+// 1. det({{1, 0, 0}, {0, 1, 0}, {0, 0, 1}}) = 1
+// 3. det({{1, 2, 3}, {4, 5, 6}, {7, 8, 9}}) = 0
+// 4. det({{3, 8}, {4, 6}}) = -14
+// 5. det({{2, -3, 1, 5}, {3, 0, 6, 4}, {-1, 3, 3, 2}, {1, 2, 1, 0}}) = 0
