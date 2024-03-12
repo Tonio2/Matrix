@@ -10,7 +10,7 @@ int main()
 			{6., 8.}
 		};
         float res = m.trace();
-        assert(areFloatsEqual(res, 11.0), "trace of Matrix");
+        assert(areFloatsEqual(res, float(11)), "trace of Matrix");
 
         // Should not work if matrix is not square
 		Matrix<float> n = {

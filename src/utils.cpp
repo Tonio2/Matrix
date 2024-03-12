@@ -17,11 +17,3 @@ void assert(bool condition, const std::string &name)
 		std::cout << "OK" << std::endl;
 	}
 }
-
-// Float equality comparison
-bool areFloatsEqual(float a, float b)
-{
-    const float EPSILON = 10 * std::numeric_limits<float>::epsilon();
-    float diff = a - b;
-    return (diff <= EPSILON && diff >= -EPSILON);
-}

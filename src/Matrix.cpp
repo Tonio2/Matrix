@@ -233,6 +233,7 @@ template <typename T>
 Matrix<T> Matrix<T>::row_echelon() const
 {
     Matrix<T> result(*this);
+    T nullValue = T(0);
 
     size_t i = 0;
     size_t j = 0;
@@ -247,7 +248,7 @@ Matrix<T> Matrix<T>::row_echelon() const
                 maxi = k;
             }
         }
-        if (not areFloatsEqual(result.data[maxi][j], 0))
+        if (not areFloatsEqual(result.data[maxi][j], nullValue))
         {
             // Swap row i and row maxi, but do not change the value of i
             if (i != maxi)
@@ -336,6 +337,8 @@ T Matrix<T>::determinant() const
 template <typename T>
 Matrix<T> Matrix<T>::inverse() const
 {
+    T nullValue = T(0);
+
     if (data.size() != data[0].size())
     {
         throw std::invalid_argument("Matrix must be square to find its inverse.");
@@ -366,7 +369,7 @@ Matrix<T> Matrix<T>::inverse() const
                 maxRow = k;
             }
         }
-        if (areFloatsEqual(result.data[maxRow][i], 0))
+        if (areFloatsEqual(result.data[maxRow][i], nullValue))
         {
             throw std::runtime_error("Matrix is singular and cannot be inverted.");
         }
@@ -410,11 +413,12 @@ Matrix<T> Matrix<T>::inverse() const
 
 template <typename T>
 int Matrix<T>::rank() const {
+    T nullValue = T(0);
     Matrix<T> ref = this->row_echelon();
     int rank = 0;
     for (const auto& row : ref.data) {
         for (const auto& element : row) {
-            if (!areFloatsEqual(element, 0)) {
+            if (!areFloatsEqual(element, nullValue)) {
                 ++rank;
                 break;
             }
